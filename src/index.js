@@ -1,23 +1,52 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 
-const App = ({ defaultCount = 0 }) => {
-  const [count, setCount] = useState(defaultCount);
-  const [text, setText] = useState('');
+const NoteApp = () => {
+  const [notes, setNotes] = useState([])
+  const [title, setTitle] = useState('')
+  const [body, setBody] = useState('')
+
+  const addNote = (e) => {
+    e.preventDefault()
+    setNotes([
+      ...notes,
+      { title, body }
+    ])
+    setTitle('')
+    setBody('')
+  }
+
+  const removeNote = (title) => {
+    setNotes(notes.filter(note => note.title !== title))
+  }
 
   return (
     <div>
-      <p>The current {text || 'count'} is {count}</p>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-      <button onClick={() => setCount(count - 1)}>-1</button>
-      <button onClick={() => setCount(defaultCount)}>-Reset</button>
-      <input value={text} onChange={(e) => setText(e.target.value)}/>
+      <h1>Notes</h1>
+      {notes.map((note) => (
+        <div key={note.title}>
+          <h3>{note.title} - {note.body}</h3>
+          <button onClick={() => removeNote(note.title)}>x</button>
+        </div>
+      ))}
+      <p>Add Note:</p>
+      <form onSubmit={addNote}>
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <input
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+        />
+        <button>add note</button>
+      </form>
     </div>
   )
-};
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-  <App />
+  <NoteApp />
 );
