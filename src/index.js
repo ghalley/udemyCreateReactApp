@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 
 const NoteApp = () => {
-  const [notes, setNotes] = useState([])
+  const json = JSON.parse(localStorage.getItem('notes')) || []
+  const [notes, setNotes] = useState(json)
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
+
+  useEffect(() => {
+    localStorage.setItem('notes', JSON.stringify(notes))
+  })
 
   const addNote = (e) => {
     e.preventDefault()
@@ -41,6 +46,26 @@ const NoteApp = () => {
         />
         <button>add note</button>
       </form>
+    </div>
+  )
+}
+
+const App = (props) => {
+  const [count, setCount] = useState(props.count)
+  const [text, setText] = useState('')
+
+  useEffect(() => {
+    console.log('useEffect called')
+    document.title = `Count: ${count}`
+  })
+
+  return (
+    <div>
+      <p> The current {text || 'count'} is {count}</p>
+      <button onClick={() => setCount(count + 1)}>+</button>
+      <button onClick={() => setCount(count - 1)}>-</button>
+      <button onClick={() => setCount(0)}>reset</button>
+      <input value={text} onChange={(e) => setText(e.target.value)} />
     </div>
   )
 }
