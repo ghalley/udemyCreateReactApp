@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 
 const NoteApp = () => {
-  const json = JSON.parse(localStorage.getItem('notes')) || []
-  const [notes, setNotes] = useState(json)
+  const [notes, setNotes] = useState([])
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
 
   useEffect(() => {
+    const json = JSON.parse(localStorage.getItem('notes')) || []
+    setNotes(json)
+  }, [])
+
+  useEffect(() => {
     localStorage.setItem('notes', JSON.stringify(notes))
-  })
+  }, [notes])
 
   const addNote = (e) => {
     e.preventDefault()
@@ -55,9 +59,13 @@ const App = (props) => {
   const [text, setText] = useState('')
 
   useEffect(() => {
+    console.log('This should only run once')
+  }, [])
+
+  useEffect(() => {
     console.log('useEffect called')
     document.title = `Count: ${count}`
-  })
+  }, [count])
 
   return (
     <div>
