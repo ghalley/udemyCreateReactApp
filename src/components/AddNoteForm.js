@@ -19,7 +19,7 @@ const AddNoteForm = () => {
   }
 
   return (
-    <div>
+    <>
       <p>Add Note:</p>
       <form onSubmit={addNote}>
         <input
@@ -32,7 +32,7 @@ const AddNoteForm = () => {
         />
         <button>add note</button>
       </form>
-    </div>
+    </>
   )
 }
 
